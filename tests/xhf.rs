@@ -50,7 +50,6 @@ fn test_general_loading_8b7j() {
     assert_eq!(5, hs.clusters.len());
 }
 
-
 #[test]
 fn test_general_loading_cf_2tpr() {
     let pdb_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -74,17 +73,17 @@ fn test_general_loading_cf_2tpr() {
     assert_eq!(7, hs.clusters.len());
 }
 
-
 #[test]
 fn test_no_hetatm() {
     let pdb_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("tests")
         .join("data")
-        .join("3mer_c10.pdb");
+        .join("fftmap_188165.pdb");
     let pdb_str = read_to_string(pdb_path).expect("can't read file");
     let (_, clusters, hotspots) =
-        find_hotspots(pdb_str, 0.10, 25, 0.5, true, true, 15, 5).expect("must have");
+        find_hotspots(pdb_str, 0.10, 25, 0.5, true, false, 15, 5).expect("must have");
 
-    assert_eq!(4, clusters.len());
-    assert_eq!(10, hotspots.len());
+    assert_eq!(8, clusters.len());
+    assert_eq!(12, hotspots.len());
+    assert_eq!(69, hotspots[11].strength_total);
 }
