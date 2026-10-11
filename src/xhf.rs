@@ -175,7 +175,7 @@ pub fn write_pdbstr(
     for (hs_idx, hs) in hotspots.iter().enumerate() {
         writeln!(
             writer,
-            "REMARK Object={}.{:?}.{} Group={} Class={:?} ST={} S0={} S1={} SZ={} CD={:.3} MD={:.3} Len={}",
+            "REMARK Object={}.K15.{:?}.{} Group={} Class={:?} ST={} S0={} S1={} SZ={} CD={:.3} MD={:.3} Len={}",
             group,
             hs.class,
             hs_idx,
@@ -201,7 +201,7 @@ pub fn write_pdbstr(
         write!(writer, "{}", c.get_pdbstr(0))?;
     }
     for (hs_idx, hs) in hotspots.iter().enumerate() {
-        writeln!(writer, "HEADER {}.{:?}.{}", group, hs.class, hs_idx,)?;
+        writeln!(writer, "HEADER {}.K15.{:?}.{}", group, hs.class, hs_idx)?;
         write!(writer, "{}", hs.get_pdbstr())?;
     }
     Ok(())

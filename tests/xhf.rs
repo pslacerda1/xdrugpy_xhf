@@ -87,3 +87,26 @@ fn test_no_hetatm() {
     assert_eq!(12, hotspots.len());
     assert_eq!(69, hotspots[11].strength_total);
 }
+
+#[test]
+fn test_write() {
+    let pdb_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("tests")
+        .join("data")
+        .join("fftmap_188165.pdb");
+
+    let pdb_str = read_to_string(pdb_path).expect("can't read file");
+
+    let (protein_lines, clusters, hotspots) =
+        find_hotspots(pdb_str, 0.10, 25, 0.5, true, false, 15, 5).expect("must have");
+
+    assert_eq!(8, clusters.len());
+    assert_eq!(12, hotspots.len());
+    assert_eq!(69, hotspots[11].strength_total);
+
+    let mut buffer: Vec<u8> = Vec::new();
+    write_pdbstr("TEST", &mut buffer, protein_lines, clusters, hotspots).expect("It should work!");
+
+    let s = String::from_utf8_lossy_owned(buffer);
+    assert_eq!(s.find("TEST.K15.DS.0"), Some(373));
+}
